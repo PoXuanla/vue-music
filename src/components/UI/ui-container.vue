@@ -7,7 +7,7 @@
 <style scoped>
 .container {
   width: 100%;
-  max-width: 1000px;
+  max-width: 1250px;
   display: flex;
 }
 </style>

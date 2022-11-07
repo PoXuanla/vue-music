@@ -5,21 +5,17 @@ import uiHeader from "@/layouts/ui-header.vue";
 <template>
   <div class="common-layout">
     <el-container>
-      <el-header id="header" class="b-1">
+      <el-header class="bb-1">
         <ui-header></ui-header>
       </el-header>
-      <el-main>Main</el-main>
+      <el-main>
+        <RouterView></RouterView>
+      </el-main>
     </el-container>
   </div>
 </template>
 
 <style scoped>
-#header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem 2rem;
-}
 .container {
   width: 100%;
   max-width: 1000px;
