@@ -1,11 +1,13 @@
 <template>
   <div id="header">
-    <div>VueMusic</div>
+    <div class="title"><RouterLink to="/">VueMusic</RouterLink></div>
     <el-dropdown trigger="click">
       <el-avatar :size="30" :src="pictureUrl" class="header-picture" />
       <template #dropdown>
         <el-dropdown-menu>
-          <el-dropdown-item>登入</el-dropdown-item>
+          <el-dropdown-item
+            ><RouterLink to="/Login">登入</RouterLink></el-dropdown-item
+          >
         </el-dropdown-menu>
       </template>
     </el-dropdown>
@@ -33,6 +35,9 @@ const pictureUrl = ref<string>(
   align-items: center;
 }
 .header-picture {
+  cursor: pointer;
+}
+.title {
   cursor: pointer;
 }
 </style>

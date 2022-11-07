@@ -36,7 +36,7 @@ defineProps({
   object-fit: cover;
 }
 .card-content {
-  height: 200px;
+  height: 80px;
 }
 .card-tool {
   display: flex;

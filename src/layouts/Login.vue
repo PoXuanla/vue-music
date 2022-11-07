@@ -24,26 +24,23 @@
 </template>
 <script setup lang="ts">
 import { ref } from "vue";
-import { useForm } from "vee-validate";
-import * as yup from "yup";
 
+import useLoginValid from "@/hooks/useLoginValid";
+
+//state
 const showModal = ref<boolean>(false);
 const loginErrMsg = ref<string>("");
 
-const schema = yup.object({
-  account: yup.string().required(),
-  password: yup.string().required(),
-});
-const { useFieldModel, handleSubmit } = useForm({
-  validationSchema: schema,
-});
-const [account, password] = useFieldModel(["account", "password"]);
+//hooks
+const { account, password, handleSubmit } = useLoginValid();
 
-function onInvalidSubmit({ errors }): void {
+//method
+
+const onInvalidSubmit = ({ errors }): void => {
   console.log(JSON.stringify(errors));
   loginErrMsg.value = JSON.stringify(errors);
   showModal.value = true;
-}
+};
 
 const onSubmit = handleSubmit((values) => {
   console.log(values);
