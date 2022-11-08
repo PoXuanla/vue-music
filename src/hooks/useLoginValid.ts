@@ -1,8 +1,8 @@
-import { ref } from "vue";
 import { useForm } from "vee-validate";
 import * as yup from "yup";
 
 export default function useLoginValid() {
+  //define validate schema
   const schema = yup.object({
     account: yup.string().required(),
     password: yup.string().required(),

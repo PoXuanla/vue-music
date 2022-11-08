@@ -1,7 +1,5 @@
 import LoginVue from "@/layouts/Login.vue";
 import MainVue from "@/layouts/Main.vue";
-import TestVue from "@/layouts/Test.vue";
-
 import { createRouter, createWebHistory } from "vue-router";
 
 const router = createRouter({
@@ -17,7 +15,6 @@ const router = createRouter({
       name: "login",
       component: LoginVue,
     },
-    { path: "/test", name: "test", component: TestVue },
   ],
 });
 

@@ -11,40 +11,78 @@
           <el-input v-model="password" placeholder="Password" name="password" />
         </div>
       </div>
-      <button class="form-button" type="submit">登入</button>
+      <el-button
+        type="danger"
+        class="error-msg-box"
+        v-show="loginErrMsg.length > 0"
+        >{{ loginErrMsg }}</el-button
+      >
+
+      <button class="form-button" type="submit" :disabled="isLoading">
+        {{ isLoading ? "登入中" : "登入" }}
+      </button>
     </form>
     <alert-modal
       :showModal="showModal"
       @onClose="closeModal"
       @onConfirm="closeModal"
       title="錯誤提示"
-      :content="loginErrMsg"
+      :content="validErrMsg"
     ></alert-modal>
   </div>
 </template>
 <script setup lang="ts">
 import { ref } from "vue";
-
+import { useUserStore } from "@/stores/user";
 import useLoginValid from "@/hooks/useLoginValid";
+import axios from "axios";
 
+// pinia
+const user = useUserStore();
 //state
 const showModal = ref<boolean>(false);
+const validErrMsg = ref<string>("");
 const loginErrMsg = ref<string>("");
-
+const isLoading = ref<boolean>(false);
 //hooks
 const { account, password, handleSubmit } = useLoginValid();
 
 //method
-
 const onInvalidSubmit = ({ errors }): void => {
   console.log(JSON.stringify(errors));
-  loginErrMsg.value = JSON.stringify(errors);
+  validErrMsg.value = JSON.stringify(errors);
   showModal.value = true;
 };
 
 const onSubmit = handleSubmit((values) => {
-  console.log(values);
+  isLoading.value = true;
+  login(values);
 }, onInvalidSubmit);
+interface LoginModel {
+  status: string;
+  message: string;
+  user?: {};
+}
+const login = async (values: object): Promise<void> => {
+  const { data } = await axios.post<LoginModel>(
+    "https://herokuxuanvoice.herokuapp.com/api/v1/users/login",
+    values,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    }
+  );
+  if (data.status === "failed") {
+    loginErrMsg.value = data.message;
+  } else {
+    user.setUserInform(data.user);
+  }
+  isLoading.value = false;
+
+  console.log(data);
+};
 
 const closeModal = (): void => {
   showModal.value = false;
@@ -67,8 +105,9 @@ const closeModal = (): void => {
 }
 .form-button {
   width: 50%;
-  border-radius: 10px;
-  background-color: aliceblue;
+  border-radius: 5px;
+  background-color: royalblue;
+  color: aliceblue;
   border: none;
   padding: 5px;
   cursor: pointer;
@@ -78,5 +117,8 @@ const closeModal = (): void => {
 }
 .form-input {
   position: relative;
+}
+.error-msg-box {
+  margin: 15px 0;
 }
 </style>
