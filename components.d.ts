@@ -19,6 +19,7 @@ declare module '@vue/runtime-core' {
     ElInput: typeof import('element-plus/es')['ElInput']
     ElMain: typeof import('element-plus/es')['ElMain']
     MusicCard: typeof import('./src/components/MusicCard.vue')['default']
+    MusicList: typeof import('./src/components/MusicList.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     UiContainer: typeof import('./src/components/UI/ui-container.vue')['default']

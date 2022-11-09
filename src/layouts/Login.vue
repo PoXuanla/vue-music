@@ -36,7 +36,10 @@ import { ref } from "vue";
 import { useUserStore } from "@/stores/user";
 import useLoginValid from "@/hooks/useLoginValid";
 import axios from "axios";
+import { useRouter } from "vue-router";
+import type { LoginModel } from "@/api/Model/LoginModel";
 
+const router = useRouter();
 // pinia
 const user = useUserStore();
 //state
@@ -58,14 +61,10 @@ const onSubmit = handleSubmit((values) => {
   isLoading.value = true;
   login(values);
 }, onInvalidSubmit);
-interface LoginModel {
-  status: string;
-  message: string;
-  user?: {};
-}
+
 const login = async (values: object): Promise<void> => {
   const { data } = await axios.post<LoginModel>(
-    "https://herokuxuanvoice.herokuapp.com/api/v1/users/login",
+    `${import.meta.env.VITE_APP_URL}/api/v1/users/login`,
     values,
     {
       headers: {
@@ -77,11 +76,11 @@ const login = async (values: object): Promise<void> => {
   if (data.status === "failed") {
     loginErrMsg.value = data.message;
   } else {
+    localStorage.setItem("token", data.token);
     user.setUserInform(data.user);
+    router.push({ name: "home", replace: true });
   }
   isLoading.value = false;
-
-  console.log(data);
 };
 
 const closeModal = (): void => {
@@ -106,8 +105,8 @@ const closeModal = (): void => {
 .form-button {
   width: 50%;
   border-radius: 5px;
-  background-color: royalblue;
-  color: aliceblue;
+  /* background-color: royalblue; */
+  /* color: aliceblue; */
   border: none;
   padding: 5px;
   cursor: pointer;

@@ -16,10 +16,16 @@
       </template>
       <template #dropdown v-else>
         <el-dropdown-menu>
-          <el-dropdown-item @click="router.push({ name: 'login' })"
+          <el-dropdown-item
+            @click="
+              router.push({
+                name: 'personFile',
+                params: { account: UserStore.userInform.account },
+              })
+            "
             >個人檔案</el-dropdown-item
           >
-          <el-dropdown-item @click="router.push({ name: 'login' })"
+          <el-dropdown-item @click="router.push({ name: 'manage' })"
             >管理歌曲</el-dropdown-item
           >
           <el-dropdown-item @click="logout">登出</el-dropdown-item>
@@ -39,11 +45,11 @@ const { userInform } = storeToRefs(UserStore);
 //methods
 const logout = (): void => {
   router.push({ name: "login" });
-  // userInform.value = {};
+  userInform.value = {};
+  localStorage.removeItem("token");
   // UserStore.$patch((state) => {
   //   state.userInform = {};
   // });
-  UserStore.$reset;
 };
 </script>
 

@@ -10,16 +10,28 @@
       <div>{{ song.intro }}</div>
     </div>
     <div class="card-tool">
-      <el-button type="">
+      <el-button @click="playMusic">
         <span class="material-symbols-outlined"> play_circle </span>
       </el-button>
     </div>
   </el-card>
 </template>
 <script setup lang="ts">
-defineProps({
+import { usePlayerStore } from "@/stores/player";
+import { toRef } from "vue";
+//pinia
+const playerStore = usePlayerStore();
+//props
+const props = defineProps({
   song: {},
 });
+const song = toRef(props, "song");
+//methods
+const playMusic = () => {
+  playerStore.setMusic(song.value);
+  playerStore.setIsPlay(true);
+  playerStore.$patch({ isShow: true });
+};
 </script>
 <style scoped>
 .card-header {
